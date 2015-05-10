@@ -3,6 +3,7 @@ Image Search Engine, based on Haar Cascade Classifier and CBIR
 
 Pre-requirements:
 * OpenCV 
+
 *Python 2.7
 
 To Run:
