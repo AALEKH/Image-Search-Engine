@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="jumbo">
+    <h2>Welcome to the Aalekh-Ankur Image Search Engine<h2>
+    <h3>Search Image<h3>
+<form action="upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+</form>
+<p>Or</p>
+<form name="searchForm" method="post">
+        <input type="text" name="search" />
+        <br><input type="submit" value="Search"></br>
+</form> 
+ </div>
+{% endblock %}
