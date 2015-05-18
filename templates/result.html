@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+  
+{% block content %}
+  <h2>Result</h2>
+  {% for x in loopdata %}
+    <p>
+      <img src = {{x}} height="42" width="42">         
+    </p>
+  {% endfor %}
+{% endblock %}

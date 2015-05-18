@@ -24,7 +24,7 @@ def detect():
   imagePath = "uploads/"
   for b in arr:
     imagePath = imagePath + b  
-  r_server = redis.Redis("localhost")
+  #r_server = redis.Redis("localhost")
   faceCascade = cv2.CascadeClassifier('haarcascade_hand.xml')
   haarFace = cv.Load('haarcascade_frontalface_default.xml')
   haarEyes = cv.Load('haarcascade_eye.xml')
@@ -55,46 +55,46 @@ def detect():
   if detectedCar > 0:
     original_img = cv2.imread(imagePath)
     clone_img = copy.copy(original_img)
-    path = 'carimg'
+    path = 'cars'
     num_files = len([f for f in os.listdir(path)
       if os.path.isfile(os.path.join(path, f))])
     print str(num_files) + "no. of cars"
-    name = "carimg/car[" + str(num_files) + "].jpeg"
+    name = "cars/car[" + str(num_files) + "].jpeg"
     cv2.imwrite(name, clone_img)
-    r_server.rpush("Cars", name)
+    #r_server.rpush("Cars", name)
 
   if len(faces) > 0:
     original_img = cv2.imread(imagePath)
     clone_img = copy.copy(original_img)
-    path = 'handimg'
+    path = 'Hand'
     num_files = len([f for f in os.listdir(path)
       if os.path.isfile(os.path.join(path, f))])
     print num_files
-    name = "handimg/hand[" + str(num_files) + "].jpeg"
+    name = "Hand/hand[" + str(num_files) + "].jpeg"
     cv2.imwrite(name, clone_img)
-    r_server.rpush("Hand", name)
+    #r_server.rpush("Hand", name)
 
   if detectedFace:
     original_img = cv2.imread(imagePath)
     clone_img = copy.copy(original_img)
-    path = 'faceimg'
+    path = 'Face'
     num_files = len([f for f in os.listdir(path)
       if os.path.isfile(os.path.join(path, f))])
     print num_files
-    name = "faceimg/face[" + str(num_files) + "].jpeg"
+    name = "Face/face[" + str(num_files) + "].jpeg"
     cv2.imwrite(name, clone_img)
-    r_server.rpush("Face", name)
+    #r_server.rpush("Face", name)
 
   if detectedEyes:
     original_img = cv2.imread(imagePath)
     clone_img = copy.copy(original_img)
-    path = 'eyeimg'
+    path = 'Eye'
     num_files = len([f for f in os.listdir(path)
       if os.path.isfile(os.path.join(path, f))])
     print num_files
-    name = "eyeimg/eyes[" + str(num_files) + "].jpeg"
+    name = "Eye/eyes[" + str(num_files) + "].jpeg"
     cv2.imwrite(name, clone_img)
-    r_server.rpush("Eye", name)           
+    #r_server.rpush("Eye", name)           
   
 @app.route('/')
 def home():
@@ -118,10 +118,16 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 
+@app.route('/result', methods=['POST'])
+def result():
+    search = request.form['search']
+    my_list = os.listdir(search)
+    elements = [search + "/" + x for x in my_list]
+    return render_template('result.html', loopdata = elements)    
   
 if __name__ == '__main__':
   app.run(
         host="127.0.0.1",
-        port=int("5003"),
+        port=int("5004"),
         debug=True
     )
